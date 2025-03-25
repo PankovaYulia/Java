@@ -1,17 +1,39 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        IntArrayContainer container = new IntArrayContainer(5);
 
+
+        System.out.println("Добавляем элементы 10, 20, 30:");
+        container.add(10);
+        container.add(20);
+        container.add(30);
+        System.out.println(container);
+
+
+        System.out.println("\nЭлемент с индексом 1: " + container.get(1));
+
+        System.out.println("\nУдаляем элемент с индексом 0:");
+        container.remove(0);
+        System.out.println(container);
+
+
+        System.out.println("\nТекущий размер контейнера: " + container.size());
+
+        System.out.println("\nКонтейнер пустой? " + container.isEmpty());
+
+        System.out.println("\nДобавляем еще 5 элементов:");
         for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            container.add(i * 10);
+        }
+        System.out.println(container);
+
+        try {
+            System.out.println("\nПробуем получить элемент с индексом 10:");
+            System.out.println(container.get(10));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 }
