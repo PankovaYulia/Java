@@ -1,71 +1,101 @@
 package org.example;
 
+/**
+ * Контейнер для хранения и управления массивом целых чисел.
+ * Предоставляет базовые операции: добавление, удаление, получение элементов и управление размером.
+ */
 public class IntArrayContainer {
-    private int[] data;
+    private int[] array;
     private int size;
-    private static final int DEFAULT_CAPACITY = 10;
 
+    /**
+     * Создает пустой контейнер с начальной емкостью по умолчанию (10 элементов).
+     */
     public IntArrayContainer() {
-        this(DEFAULT_CAPACITY);
+        this(10);
     }
 
+    /**
+     * Создает пустой контейнер с указанной начальной емкостью.
+     *
+     * @param initialCapacity начальная емкость контейнера
+     * @throws IllegalArgumentException если указана отрицательная начальная емкость
+     */
     public IntArrayContainer(int initialCapacity) {
-        if (initialCapacity <= 0) {
-            throw new IllegalArgumentException("Initial capacity must be positive");
+        if (initialCapacity < 0) {
+            throw new IllegalArgumentException("Недопустимая емкость: " + initialCapacity);
         }
-        this.data = new int[initialCapacity];
+        this.array = new int[initialCapacity];
         this.size = 0;
     }
 
-    public void add(int value) {
-        ensureCapacity();
-        data[size++] = value;
+    /**
+     * Добавляет указанный элемент в конец контейнера.
+     * При необходимости автоматически увеличивает емкость контейнера.
+     *
+     * @param element элемент для добавления
+     */
+    public void add(int element) {
+        if (size == array.length) {
+            expandCapacity();
+        }
+        array[size++] = element;
     }
 
+    /**
+     * Возвращает элемент по указанному индексу.
+     *
+     * @param index индекс элемента
+     * @return элемент по указанному индексу
+     * @throws IndexOutOfBoundsException если индекс выходит за границы 
+     */
     public int get(int index) {
-        checkIndex(index);
-        return data[index];
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Индекс: " + index + ", Размер: " + size);
+        }
+        return array[index];
     }
 
+    /**
+     * Удаляет элемент по указанному индексу.
+     * Сдвигает все последующие элементы влево.
+     *
+     * @param index индекс удаляемого элемента
+     * @throws IndexOutOfBoundsException если индекс выходит за границы
+     */
     public void remove(int index) {
-        checkIndex(index);
-        System.arraycopy(data, index + 1, data, index, size - index - 1);
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Индекс: " + index + ", Размер: " + size);
+        }
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
         size--;
     }
 
+    /**
+     * Возвращает текущее количество элементов в контейнере.
+     *
+     * @return количество элементов
+     */
     public int size() {
         return size;
     }
 
+    /**
+     * Проверяет, пуст ли контейнер.
+     *
+     * @return true если контейнер не содержит элементов
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    private void ensureCapacity() {
-        if (size == data.length) {
-            int newCapacity = data.length * 2;
-            int[] newData = new int[newCapacity];
-            System.arraycopy(data, 0, newData, 0, size);
-            data = newData;
-        }
-    }
-
-    private void checkIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < size; i++) {
-            sb.append(data[i]);
-            if (i < size - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append("]");
-        return sb.toString();
+    /**
+     * Увеличивает емкость контейнера при заполнении.
+     */
+    private void expandCapacity() {
+        int newCapacity = (array.length * 3) / 2 + 1;
+        int[] newArray = new int[newCapacity];
+        System.arraycopy(array, 0, newArray, 0, size);
+        array = newArray;
     }
 }
