@@ -18,5 +18,8 @@ public class Main {
         double result3 = calculator.evaluateExpression("x^2 + y*3");
         System.out.println("x^2 + y*3 (где x=5, y=2) = " + result3);  // Выведет: x^2 + y*3 (где x=5, y=2) = 31.0
 
+        // Пример 4: Использование математических функций
+        double result4 = calculator.evaluateExpression("sqrt(x) + sin(y)");
+        System.out.println("sqrt(x) + sin(y) (где x=5, y=2) = " + result4);
     }
 }
