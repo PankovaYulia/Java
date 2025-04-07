@@ -3,15 +3,24 @@ package org.example;
 import java.util.*;
 
 public class ExpressionCalculator {
-
     private final Map<String, Double> variables;
 
     public ExpressionCalculator() {
         this.variables = new HashMap<>();
     }
+
     public double evaluateExpression(String expression) {
+        // Подставляем значения переменных перед вычислением
+        for (Map.Entry<String, Double> entry : variables.entrySet()) {
+            expression = expression.replaceAll(entry.getKey(), entry.getValue().toString());
+        }
         return evaluate(expression);
     }
+
+    public void addVariable(String variableName, double value) {
+        variables.put(variableName, value);
+    }
+
     private double evaluate(String expression) {
         return new Object() {
             int pos = -1;
@@ -68,6 +77,11 @@ public class ExpressionCalculator {
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') {
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = Double.parseDouble(expression.substring(startPos, this.pos));
+                } else if (ch >= 'a' && ch <= 'z') {
+                    while (ch >= 'a' && ch <= 'z') nextChar();
+                    String func = expression.substring(startPos, this.pos);
+                    if (!eat('(')) throw new RuntimeException("Ожидалась открывающая скобка после функции");
+                    x = parseExpression();
                 } else {
                     throw new RuntimeException("Неожиданный символ: " + (char)ch);
                 }
