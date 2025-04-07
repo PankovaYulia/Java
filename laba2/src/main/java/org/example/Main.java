@@ -8,47 +8,37 @@ public class Main {
         InputReader inputReader = new InputReader();
         ExpressionCalculator calculator = new ExpressionCalculator();
 
-        System.out.println("Введите переменные в формате 'имя = значение'");
-        System.out.println("Для завершения ввода переменных введите 'end'");
-
-        // Ввод переменных
         while (true) {
-            System.out.print("> ");
-            String input = inputReader.readStringFromConsole().trim();
+            System.out.println("Меню:");
+            System.out.println("1. Добавить переменную и её значение");
+            System.out.println("2. Вычислить значение выражения");
+            System.out.println("3. Выйти");
 
-            if (input.equalsIgnoreCase("end")) {
-                break;
+            System.out.print("Выберите действие: ");
+            int choice = inputReader.readIntFromConsole();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Введите имя переменной: ");
+                    String variableName = inputReader.readStringFromConsole();
+                    System.out.print("Введите значение переменной: ");
+                    double value = inputReader.readDoubleFromConsole();
+                    calculator.addVariable(variableName, value);
+                    System.out.println("Переменная добавлена.");
+                    break;
+                case 2:
+                    System.out.println("Введите выражение для вычисления: ");
+                    System.out.println("Пример: "+calculator.giveExample());
+                    String expression = inputReader.readStringFromConsole();
+                    double result = calculator.evaluateExpression(expression);
+                    System.out.println("Результат выражения '" + expression + "': " + result);
+                    break;
+                case 3:
+                    System.out.println("Программа завершена.");
+                    return;
+                default:
+                    System.out.println("Неверный выбор. Пожалуйста, выберите существующий пункт меню.");
             }
-
-            try {
-                String[] parts = input.split("=");
-                if (parts.length != 2) {
-                    System.out.println("Неверный формат. Используйте: имя = значение");
-                    continue;
-                }
-
-                String variableName = parts[0].trim();
-                double value = Double.parseDouble(parts[1].trim());
-                calculator.addVariable(variableName, value);
-                System.out.println("Добавлена переменная: " + variableName + " = " + value);
-            } catch (NumberFormatException e) {
-                System.out.println("Ошибка: неверный формат числа");
-            } catch (Exception e) {
-                System.out.println("Ошибка: " + e.getMessage());
-            }
-        }
-
-        // Ввод выражения для вычисления
-        System.out.println("\nВведите выражение для вычисления:");
-        System.out.println("Пример: " + calculator.giveExample());
-        System.out.print("> ");
-        String expression = inputReader.readStringFromConsole();
-
-        try {
-            double result = calculator.evaluateExpression(expression);
-            System.out.println("Результат выражения '" + expression + "': " + result);
-        } catch (Exception e) {
-            System.out.println("Ошибка вычисления: " + e.getMessage());
         }
     }
 }
