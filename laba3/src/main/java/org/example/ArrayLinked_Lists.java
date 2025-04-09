@@ -13,6 +13,8 @@ public class ArrayLinked_Lists {
             testAdd(i);
             testGet(i);
             testContains(i);
+            testDelete(i);
+            testClear(i);
         }
     }
     private void printResult(String operation, long arrayListTime, long linkedListTime, int NUM_OPERATIONS) {
@@ -64,6 +66,37 @@ public class ArrayLinked_Lists {
         }, NUM_OPERATIONS);
 
         printResult("Contains", arrayListContainsTime, linkedListContainsTime, NUM_OPERATIONS);
+    }
+    private void testDelete(int NUM_OPERATIONS) {
+        long arrayListDeleteTime = measureTime(() -> {
+            for (int i = 0; i < NUM_OPERATIONS; i++) {
+                arrayList.remove(0);
+            }
+        }, NUM_OPERATIONS);
+
+        long linkedListDeleteTime = measureTime(() -> {
+            for (int i = 0; i < NUM_OPERATIONS; i++) {
+                linkedList.removeFirst();
+            }
+        }, NUM_OPERATIONS);
+
+        printResult("Delete  ", arrayListDeleteTime, linkedListDeleteTime, NUM_OPERATIONS);
+    }
+    private void testClear(int NUM_OPERATIONS) {
+        for (int i = 0; i < NUM_OPERATIONS; i++) {
+            arrayList.add(i);
+            linkedList.add(i);
+        }
+
+        long arrayListClearTime = measureTime(() -> {
+            arrayList.clear();
+        }, NUM_OPERATIONS);
+
+        long linkedListClearTime = measureTime(() -> {
+            linkedList.clear();
+        }, NUM_OPERATIONS);
+
+        printResult("Clear   ", arrayListClearTime, linkedListClearTime, NUM_OPERATIONS);
     }
     private long measureTime(Runnable task, int NUM_OPERATIONS) {
         long startTime = System.nanoTime();
