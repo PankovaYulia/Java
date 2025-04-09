@@ -13,20 +13,30 @@ public class ArrayLinked_Lists {
             testAdd(i);
         }
     }
-    private void printResult(String operation, int NUM_OPERATIONS) {
-        System.out.println("Operation\tCount\t");
-        System.out.println(operation + "\t" + NUM_OPERATIONS );
+    private void printResult(String operation, long arrayListTime, long linkedListTime, int NUM_OPERATIONS) {
+        System.out.println("Operation\tCount\tArrayList Time (ns)\tLinkedList Time (ns)");
+        System.out.println(operation + "\t" + NUM_OPERATIONS + "\t\t\t" + arrayListTime + "\t\t\t" + linkedListTime);
         System.out.println(" ");
     }
     private void testAdd(int NUM_OPERATIONS) {
+        long arrayListAddTime = measureTime(() -> {
             for (int i = 0; i < NUM_OPERATIONS; i++) {
                 arrayList.add(i);
             }
+        }, NUM_OPERATIONS);
 
+        long linkedListAddTime = measureTime(() -> {
             for (int i = 0; i < NUM_OPERATIONS; i++) {
                 linkedList.add(i);
             }
+        }, NUM_OPERATIONS);
 
-        printResult("Add     ", NUM_OPERATIONS);
+        printResult("Add     ", arrayListAddTime, linkedListAddTime, NUM_OPERATIONS);
+    }
+    private long measureTime(Runnable task, int NUM_OPERATIONS) {
+        long startTime = System.nanoTime();
+        task.run();
+        long endTime = System.nanoTime();
+        return (endTime - startTime) / NUM_OPERATIONS;
     }
 }
