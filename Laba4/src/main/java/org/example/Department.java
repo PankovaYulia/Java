@@ -3,11 +3,11 @@ package org.example;
 import java.util.HashMap;
 
 public class Department {
-    private static int nextId = 1;
+    static int nextId = 1;
     private final int id;
     private final String name;
 
-    private static HashMap<String, Department> departmentCache = new HashMap<>();
+    static HashMap<String, Department> departmentCache = new HashMap<>();
     public Department(int id, String name) {
         this.id = id;
         this.name = name;
