@@ -10,7 +10,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * Класс для чтения данных о сотрудниках из CSV-файла.
+ */
 public class PersonReader {
+    /**
+     * @param filepath  путь к CSV-файлу в ресурсах
+     * @param separator разделитель полей в CSV-файле
+     * @return список объектов Person
+     * @throws RuntimeException если произошла ошибка чтения файла
+     */
     public ArrayList<Person> readFromCSV(String filepath, char separator) {
         ArrayList<Person> personList = new ArrayList<>();
 
