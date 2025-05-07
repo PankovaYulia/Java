@@ -1,4 +1,4 @@
-package org.example.interfaces;
+package interfaces;
 
 public interface SomeInterface {
     public void doSomething();
