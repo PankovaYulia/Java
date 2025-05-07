@@ -5,7 +5,16 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
+/**
+ * Инжектор зависимостей, который внедряет реализации на основе конфигурации
+ */
 public class Injector {
+    /**
+     * Внедряет зависимости в переданный объект
+     * @param injectableObject объект для внедрения зависимостей
+     * @param <T> тип объекта
+     * @return объект с внедренными зависимостями
+     */
     public <T> T inject(T injectableObject) {
         Properties properties = new Properties();
         try (FileInputStream fileInputStream = new FileInputStream("src/main/properties/config.properties")) {
